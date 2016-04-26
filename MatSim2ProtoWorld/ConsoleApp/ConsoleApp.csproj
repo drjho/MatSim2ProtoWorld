@@ -43,11 +43,21 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="MatSimContainer.cs" />
+    <Compile Include="MatSimNetwork.cs" />
+    <Compile Include="MatSimSchedule.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="VehicleDefinitions.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\..\..\MightyLittleGeodesy\MightyLittleGeodesy\MightyLittleGeodesy.Net45.csproj">
+      <Project>{710bf1ab-bff7-47c9-bb09-22b9e5026bd5}</Project>
+      <Name>MightyLittleGeodesy.Net45</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
