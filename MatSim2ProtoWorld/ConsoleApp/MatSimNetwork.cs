@@ -1,9 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.IO;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Xml.Serialization;
 
 namespace ConsoleApp
@@ -15,7 +12,7 @@ namespace ConsoleApp
         public List<MatSimNode> nodes;
 
         [XmlArrayItem("link")]
-        public List<MatSimLinks> links;
+        public List<MatSimLink> links;
 
         public static MatSimNetwork Load(string path)
         {
@@ -35,27 +32,41 @@ namespace ConsoleApp
             }
         }
 
+        public MatSimLink GetClosestLink(float x, float y)
+        {
+            MatSimLink closest = null;
+            var min = double.MaxValue;
+            var point = new double[] { x, y };
+            foreach (var link in links)
+            {
+                if (min > LinkToPointDistance(link, point))
+                    closest = link;
+            }
+            return closest;
+        }
+
+        double LinkToPointDistance(MatSimLink link, double[] point)
+        {
+            return MatSimUtils.LineToPointDistance2D(GetNode(link.from).Point, GetNode(link.to).Point, point);
+        }
+
         /// <summary>
         /// minx, miny, maxx, maxy.
         /// </summary>
         /// <returns></returns>
         public float[] GetMinMaxXY()
         {
-            var minmax = new float[4] { float.MaxValue, float.MaxValue, float.MinValue, float.MinValue };
-            foreach (var node in nodes)
-            {
-                minmax[0] = (node.x < minmax[0]) ? node.x : minmax[0];
-                minmax[1] = (node.y < minmax[1]) ? node.y : minmax[1];
-                minmax[2] = (node.x > minmax[2]) ? node.x : minmax[2];
-                minmax[3] = (node.y > minmax[3]) ? node.y : minmax[3];
-            }
+            return MatSimUtils.GetMinMaxXY(nodes);
+        }
 
-            return minmax;
+        public MatSimNode GetNode(string nodeId)
+        {
+            return nodes.Find(node => node.id == nodeId);
         }
 
         public string GetNodeString(string id)
         {
-            return nodes.Find(node => node.id == id).ToString();
+            return GetNode(id).ToString();
         }
 
         public string GetLinkString(string id)
@@ -65,7 +76,7 @@ namespace ConsoleApp
         }
     }
 
-    public class MatSimLinks
+    public class MatSimLink
     {
         [XmlAttribute]
         public string id;
@@ -96,9 +107,16 @@ namespace ConsoleApp
         [XmlAttribute]
         public float y;
 
+        public double[] Point { get { return new double[] { x, y }; } }
+
         public override string ToString()
         {
-            return $"{id}: {x}, {y}.";
+            return $"{id}: {x}, {y}";
+        }
+
+        public double[] GetLatLon()
+        {
+            return MatSimUtils.GetLatLon(x, y);
         }
     }
 }

@@ -52,6 +52,7 @@
   </Choose>
   <ItemGroup>
     <Compile Include="MatSimNetworkTests.cs" />
+    <Compile Include="MatSimUtilsTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

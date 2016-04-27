@@ -46,6 +46,7 @@
     <Compile Include="MatSimContainer.cs" />
     <Compile Include="MatSimNetwork.cs" />
     <Compile Include="MatSimSchedule.cs" />
+    <Compile Include="MatSimUtils.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="VehicleDefinitions.cs" />

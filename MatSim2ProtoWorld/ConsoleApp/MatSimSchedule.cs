@@ -1,9 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.IO;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Xml.Serialization;
 
 namespace ConsoleApp
@@ -36,6 +32,11 @@ namespace ConsoleApp
             }
         }
 
+        public float[] GetMinMaxXY()
+        {
+            return MatSimUtils.GetMinMaxXY(stops);
+        }
+
         public string GetStopString(string id)
         {
             return stops.Find(s => s.id == id).ToString();
@@ -47,23 +48,20 @@ namespace ConsoleApp
         }
     }
 
-    public class MatSimStop
+    public class MatSimStop : MatSimNode
     {
         [XmlAttribute]
-        public string id;
-        [XmlAttribute]
         public string name;
-        [XmlAttribute]
-        public float x;
-        [XmlAttribute]
-        public float y;
+
         [XmlAttribute]
         public bool isBlocking;
 
         public override string ToString()
         {
-            return $"id: {id}, name: {name}";
+            return $"{base.ToString()}, name: {name}, block?: {isBlocking}";
         }
+
+
     }
 
     public class MatSimLine

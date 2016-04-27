@@ -21,18 +21,34 @@ namespace ConsoleApp
             var matSimSchedule = MatSimSchedule.Load(schedulePath);
             var vehicleDefinition = VehicleDefinitions.Load(vehiclePath);
 
-            var minmax = matSimNetwork.GetMinMaxXY();
+            var networkMinMax = matSimNetwork.GetMinMaxXY();
 
-            SWEREF99Position minSwe = new SWEREF99Position(minmax[1], minmax[0]);
-            SWEREF99Position maxSwe = new SWEREF99Position(minmax[3], minmax[2]);
+            SWEREF99Position minSwe = new SWEREF99Position(networkMinMax[1], networkMinMax[0]);
+            SWEREF99Position maxSwe = new SWEREF99Position(networkMinMax[3], networkMinMax[2]);
 
-            WGS84Position minWgs = minSwe.ToWGS84();
-            WGS84Position maxWgs = maxSwe.ToWGS84();
+            WGS84Position netMinWgs = minSwe.ToWGS84();
+            WGS84Position netMaxWgs = maxSwe.ToWGS84();
 
-            Console.WriteLine($"Min Lat: {minWgs.LatitudeToString(WGS84Position.WGS84Format.Degrees)}");
-            Console.WriteLine($"Min Lon: {minWgs.LongitudeToString(WGS84Position.WGS84Format.Degrees)}");
-            Console.WriteLine($"Max Lat: {maxWgs.LatitudeToString(WGS84Position.WGS84Format.Degrees)}");
-            Console.WriteLine($"Max Lon: {maxWgs.LongitudeToString(WGS84Position.WGS84Format.Degrees)}");
+            Console.WriteLine($"Min Lat: {netMinWgs.LatitudeToString(WGS84Position.WGS84Format.Degrees)}");
+            Console.WriteLine($"Min Lon: {netMinWgs.LongitudeToString(WGS84Position.WGS84Format.Degrees)}");
+            Console.WriteLine($"Max Lat: {netMaxWgs.LatitudeToString(WGS84Position.WGS84Format.Degrees)}");
+            Console.WriteLine($"Max Lon: {netMaxWgs.LongitudeToString(WGS84Position.WGS84Format.Degrees)}");
+
+            var scheduleMinMax = matSimSchedule.GetMinMaxXY();
+
+            minSwe = new SWEREF99Position(scheduleMinMax[1], scheduleMinMax[0]);
+            maxSwe = new SWEREF99Position(scheduleMinMax[3], scheduleMinMax[2]);
+
+            WGS84Position schMinWgs = minSwe.ToWGS84();
+            WGS84Position schMaxWgs = maxSwe.ToWGS84();
+
+            Console.WriteLine($"Min Lat: {schMinWgs.LatitudeToString(WGS84Position.WGS84Format.Degrees)}, {scheduleMinMax[1]}");
+            Console.WriteLine($"Min Lat: {schMinWgs.Latitude}");
+
+            Console.WriteLine($"Min Lon: {schMinWgs.LongitudeToString(WGS84Position.WGS84Format.Degrees)}, {scheduleMinMax[0]}");
+            Console.WriteLine($"Max Lat: {schMaxWgs.LatitudeToString(WGS84Position.WGS84Format.Degrees)}, {scheduleMinMax[3]}");
+            Console.WriteLine($"Max Lon: {schMaxWgs.LongitudeToString(WGS84Position.WGS84Format.Degrees)}, {scheduleMinMax[2]}");
+
 
             //Console.WriteLine(matSimSchedule.GetStopString("99999"));
             //Console.WriteLine(matSimSchedule.GetLineString("line1_r"));
